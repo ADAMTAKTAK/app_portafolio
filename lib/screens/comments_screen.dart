@@ -22,14 +22,9 @@ class CommentsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Center(
-                      child: CircleAvatar(
-                        radius: 80,
-                        backgroundColor: neonColor,
-                        child: CircleAvatar(
-                          radius: 77,
-                          backgroundColor: Colors.black,
-                          child: Icon(Icons.terminal, size: 60, color: neonColor),
-                        ),
+                      child: _ProgramImage(
+                        neonColor: neonColor,
+                        imagePath: 'assets/images/programa.png',
                       ),
                     ),
                     const SizedBox(height: 35),
@@ -61,6 +56,35 @@ class CommentsScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _ProgramImage extends StatelessWidget {
+  final Color neonColor;
+  final String imagePath;
+
+  const _ProgramImage({
+    required this.neonColor,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 160,
+      height: 160,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: neonColor, width: 3),
+        color: Colors.black,
+      ),
+      child: ClipOval(
+        child: Image.asset(
+          imagePath,
+          fit: BoxFit.fill, 
+        ),
+      ),
     );
   }
 }

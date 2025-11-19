@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:app_portafolio/screens/screens.dart';
 import 'package:app_portafolio/themes/app_theme.dart';
 
@@ -12,6 +13,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
+  late AudioPlayer _audioPlayer;
+  
+  bool _isPlaying = true; 
+
+  final String _audioPath =
+      'audio/Tron_Legacy_Soundtrack_OST_12_End_of_Line_Daft_PunkMP3_320K.mp3';
+
   static const List<Widget> _screens = [
     AboutScreen(),
     CommentsScreen(),
@@ -21,6 +29,39 @@ class _HomeScreenState extends State<HomeScreen> {
     AppTheme.tronBlue,
     AppTheme.tronOrange,
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+    
+    _audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    _audioPlayer.play(AssetSource(_audioPath));
+    
+    _audioPlayer.onPlayerStateChanged.listen((state) {
+      if (mounted) { 
+        setState(() {
+          _isPlaying = state == PlayerState.playing;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.stop(); 
+    _audioPlayer.dispose(); 
+    super.dispose();
+  }
+
+  void _toggleMusic() {
+    if (_isPlaying) {
+      _audioPlayer.pause();
+    } else {
+      _audioPlayer.resume(); 
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -44,8 +85,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-             icon: const Icon(Icons.music_off, color: AppTheme.tronCyanIcon),
-             onPressed: () {}, 
+            icon: Icon(
+              _isPlaying ? Icons.music_note : Icons.music_off,
+              color: AppTheme.tronCyanIcon, 
+            ),
+            onPressed: _toggleMusic,
           ),
           IconButton(
             icon: const Icon(Icons.code), 

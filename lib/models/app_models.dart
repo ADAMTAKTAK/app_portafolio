@@ -36,5 +36,5 @@ class AppModels {
   static const String signatureRole = 'Flutter Developer, Software Engineer // TRON Enthusiast';
   static const String contactEmail = 'xxbyadamxx@gmail.com';
   static const String contactPhone = '+58 414-6263358';
-  static const String githubUrl = 'https://github.com/AdamTaktak'; 
+  static const String githubUrl = 'https://github.com/ADAMTAKTAK'; 
 }

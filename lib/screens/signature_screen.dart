@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:app_portafolio/models/app_models.dart';
 import 'package:app_portafolio/themes/app_theme.dart';
 import 'package:app_portafolio/widgets/widgets.dart';
@@ -6,10 +7,17 @@ import 'package:app_portafolio/widgets/widgets.dart';
 class SignatureScreen extends StatelessWidget {
   const SignatureScreen({super.key});
 
+  Future<void> _launchUrl() async {
+    final Uri url = Uri.parse(AppModels.githubUrl);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    const Color neonColor = AppTheme.tronRed; 
+    const Color neonColor = AppTheme.tronRed;
 
     return Scaffold(
       appBar: AppBar(
@@ -28,20 +36,13 @@ class SignatureScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-
             const Center(
-               child: CircleAvatar(
-                radius: 80,
-                backgroundColor: neonColor,
-                child: CircleAvatar(
-                  radius: 77,
-                  backgroundColor: Colors.black,
-                  child: Icon(Icons.security, size: 60, color: neonColor),
-                ),
+              child: _AresImage(
+                neonColor: neonColor,
+                imagePath: 'assets/images/ares.png',
               ),
             ),
             const SizedBox(height: 35),
-
             Text(
               AppModels.signatureName,
               style: textTheme.headlineMedium?.copyWith(
@@ -58,13 +59,11 @@ class SignatureScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 40),
-
             Container(
               height: 2,
               color: neonColor.withAlpha(179),
             ),
             const SizedBox(height: 40),
-
             _ContactInfoRow(
               icon: Icons.alternate_email,
               text: AppModels.contactEmail,
@@ -76,15 +75,13 @@ class SignatureScreen extends StatelessWidget {
               text: AppModels.contactPhone,
               iconColor: neonColor,
             ),
-
-
             const SizedBox(height: 40),
             Center(
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: _launchUrl,
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppTheme.tronRed, width: 2),
-                  foregroundColor: AppTheme.tronRed,
+                  side: const BorderSide(color: neonColor, width: 2),
+                  foregroundColor: neonColor,
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 ),
                 icon: const Icon(Icons.code),
@@ -98,11 +95,39 @@ class SignatureScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             const Spacer(),
             const AppFooter(),
             const SizedBox(height: 20),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AresImage extends StatelessWidget {
+  final Color neonColor;
+  final String imagePath;
+
+  const _AresImage({
+    required this.neonColor,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 160,
+      height: 160,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: neonColor, width: 3),
+        color: Colors.black,
+      ),
+      child: ClipOval(
+        child: Image.asset(
+          imagePath,
+          fit: BoxFit.fill,
         ),
       ),
     );

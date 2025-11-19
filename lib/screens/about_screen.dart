@@ -35,14 +35,9 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: 35),
 
             const Center(
-              child: CircleAvatar(
-                radius: 80,
-                backgroundColor: neonColor,
-                child: CircleAvatar(
-                  radius: 77,
-                  backgroundColor: Colors.black,
-                  child: Icon(Icons.person, size: 60, color: neonColor),
-                ),
+              child: _ProfilePhoto(
+                neonColor: neonColor,
+                imagePath: 'assets/images/user.png',
               ),
             ),
             const SizedBox(height: 35),
@@ -63,6 +58,36 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: 50),
             const AppFooter(),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfilePhoto extends StatelessWidget {
+  final Color neonColor;
+  final String imagePath;
+
+  const _ProfilePhoto({
+    required this.neonColor,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 160, 
+      height: 160,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: neonColor, width: 3), 
+        color: Colors.black, 
+      ),
+      child: ClipOval(
+        child: Image.asset(
+          imagePath,
+          fit: BoxFit.fill, 
+          alignment: Alignment.center,
         ),
       ),
     );
