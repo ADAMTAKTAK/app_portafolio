@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-
   static const Color background = Color(0xFF000000); 
   static const Color textBase = Color(0xFFE0F4FF); 
   static const Color textSecondary = Color(0xFF88A1B0); 
@@ -20,6 +19,19 @@ class AppTheme {
       elevation: 0,
       iconTheme: IconThemeData(
         color: tronCyanIcon, 
+      ),
+    ),
+
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: background,
+      selectedItemColor: tronBlue, 
+      unselectedItemColor: textSecondary, 
+      elevation: 0,
+      type: BottomNavigationBarType.fixed,
+      showUnselectedLabels: false,
+      selectedLabelStyle: const TextStyle(
+        fontFamily: 'monospace',
+        fontWeight: FontWeight.bold,
       ),
     ),
 
